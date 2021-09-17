@@ -1,4 +1,6 @@
 import { createModule, action } from 'vuex-class-component';
+import { Product } from '@/models/Product';
+import { ProductFilter } from '@/models/ProductFilter';
 
 function getDefaultProductFilter() {
   return {
@@ -26,10 +28,10 @@ function getDefaultProducts() {
 const VuexModule = createModule({ namespaced: 'products', strict: false });
 
 export default class ProductsModule extends VuexModule {
-  filter = getDefaultProductFilter();
-  products = getDefaultProducts();
+  filter: ProductFilter = getDefaultProductFilter();
+  products: Product[] = getDefaultProducts();
 
-  get filteredProducts() {
+  get filteredProducts(): Product[] {
     const filter = this.filter;
     return this.products.filter(
       product =>
@@ -40,7 +42,7 @@ export default class ProductsModule extends VuexModule {
   }
 
   @action
-  async setFilter(newFilter) {
+  async setFilter(newFilter: ProductFilter): Promise<void> {
     this.filter = newFilter;
   }
 }
