@@ -22,12 +22,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Card from '@/components/Card.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import { cart, products } from '@/store';
+import Vue, {PropType} from 'vue';
+import { Product } from '@/models/Product';
+import { CartItem } from '@/models/CartItem';
+import { Product } from '@/models/Product';
 
-export default {
+
+export default Vue.extend({
   name: 'Product',
 
   components: {
@@ -36,7 +41,7 @@ export default {
   },
 
   computed: {
-    productId() {
+    productId(): number {
       const rawId = this.$route.params?.id;
       if (!rawId) {
         throw new Error('Incorrect product id');
@@ -48,23 +53,23 @@ export default {
       return id;
     },
 
-    product() {
+    product(): Product| undefined {
       return products.products.find(item => item.id === this.productId);
     },
 
-    cartItem() {
+    cartItem(): CartItem | undefined {
       return cart.items.find(item => item.productId === this.productId);
     },
 
-    isInCart() {
+    isInCart(): boolean {
       return !!this.cartItem;
     },
 
     cartAmount: {
-      get() {
+      get(): string {
         return String(this.cartItem?.amount ?? 0);
       },
-      set(value) {
+      set(value: string) {
         const amount = parseInt(value);
         if (isNaN(amount) || amount <= 0) {
           throw new Error('Invalind amount');
@@ -83,7 +88,7 @@ export default {
       cart.removeItem(this.productId);
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

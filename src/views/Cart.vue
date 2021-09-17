@@ -24,12 +24,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import Card from '@/components/Card.vue';
 import LocaleMixin from '@/mixins/LocaleMixin';
 import { cart, products } from '@/store';
 
-export default {
+type CartItemProduct = CartItem & { product: Product | undefined };
+
+export default Vue.extend({
   name: 'Cart',
 
   mixins: [LocaleMixin],
@@ -39,7 +42,7 @@ export default {
   },
 
   computed: {
-    cartProducts() {
+    cartProducts(): CartItemProduct[] {
       return cart.items.map(cartItem => {
         return {
           ...cartItem,
@@ -48,7 +51,7 @@ export default {
       });
     },
 
-    totalPrice() {
+    totalPrice(): number {
       return this.cartProducts.reduce(
         (sum, item) => sum + (item.product?.price ?? 0) * item.amount,
         0,
@@ -57,11 +60,11 @@ export default {
   },
 
   methods: {
-    removeFromCart(cartItem) {
+    removeFromCart(cartItem: CartItemProduct): void {
       cart.removeItem(cartItem.productId);
     },
 
-    setAmount(cartItem, value) {
+    setAmount(cartItem: CartItemProduct, value: string): void {
       const amount = parseInt(value);
       if (isNaN(amount) || amount <= 0) {
         throw new Error('Invalind amount');
@@ -69,7 +72,7 @@ export default {
       cart.updateItem({ productId: cartItem.productId, amount });
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

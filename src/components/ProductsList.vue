@@ -13,10 +13,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ProductCard from '@/components/ProductCard.vue';
+import { Product } from '@/models/Product';
+import Vue, { PropType } from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'ProductsList',
 
   components: {
@@ -25,11 +27,11 @@ export default {
 
   props: {
     products: {
-      type: Array,
+      type: Array as PropType<Product[]>,
       required: true,
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

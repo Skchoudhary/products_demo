@@ -18,10 +18,12 @@
   </Card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue, {PropType} from 'vue';
+import { ProductFilter } from '@/models/ProductFilter';
 import Card from '@/components/Card.vue';
 
-export default {
+export default Vue.extend({
   name: 'ProductsFilter',
 
   components: {
@@ -30,40 +32,40 @@ export default {
 
   props: {
     value: {
-      type: Object,
+      type: Object as PropType<ProductFilter>,
       required: true,
     },
   },
 
   computed: {
     name: {
-      get() {
+      get(): string {
         return this.value.name ?? '';
       },
-      set(name) {
+      set(name: string) {
         this.$emit('input', { ...this.value, name: name || null });
       },
     },
 
     minPrice: {
-      get() {
+      get(): string {
         return String(this.value.minPrice) ?? '';
       },
-      set(minPrice) {
+      set(minPrice: string) {
         this.$emit('input', { ...this.value, minPrice: parseFloat(minPrice) || null });
       },
     },
 
     maxPrice: {
-      get() {
+      get(): string {
         return String(this.value.maxPrice) ?? '';
       },
-      set(maxPrice) {
+      set(maxPrice: string) {
         this.$emit('input', { ...this.value, maxPrice: parseFloat(maxPrice) || null });
       },
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

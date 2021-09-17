@@ -15,11 +15,13 @@
   </Card>
 </template>
 
-<script>
+<script lang="ts">
 import Card from '@/components/Card.vue';
 import LocaleMixin from '@/mixins/LocaleMixin';
+import Vue, { PropType } from 'vue';
+import { Product } from '@/models/Product';
 
-export default {
+export default Vue.extend({
   name: 'ProductCard',
 
   components: {
@@ -30,11 +32,11 @@ export default {
 
   props: {
     product: {
-      type: Object,
+      type: Object as PropType<Product>,
       required: true,
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
